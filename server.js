@@ -22,12 +22,15 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.set('view engine', 'ejs');
-app.use(passport.initialize());
 app.use(session({
-    secret: 'jlab',
+    secret: 'jlab rocks the house',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: { maxAge: 60000 }
+
 }));
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
 
 app.use(flash());
 

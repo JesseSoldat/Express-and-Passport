@@ -1,5 +1,7 @@
 module.exports = function(app, passport) {
 
+
+
 	app.get('/', function(req, res){
 		res.render('index.ejs');
 	});
@@ -10,6 +12,13 @@ module.exports = function(app, passport) {
         // render the page and pass in any flash data if it exists
         res.render('login.ejs', { message: req.flash('loginMessage') }); 
     });
+
+     // process the login form
+    app.post('/login', passport.authenticate('local-login', {
+        successRedirect : '/profile', // redirect to the secure profile section
+        failureRedirect : '/login', // redirect back to the signup page if there is an error
+        failureFlash : true // allow flash messages
+    }));
 
 
     app.get('/signup', function(req, res) {
@@ -38,7 +47,8 @@ module.exports = function(app, passport) {
 
 
     function isLoggedIn(req, res, next) {
-
+    console.log('isLoggedIn');
+    console.log(req.session);
     // if user is authenticated in the session, carry on 
     if (req.isAuthenticated())
         return next();
