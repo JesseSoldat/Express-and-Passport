@@ -15,7 +15,7 @@ var configDB = require('./config/database.js');
 
 mongoose.connect(configDB.url);
 
-// require('./config/passport')(passport); 
+require('./config/passport')(passport); 
 
 app.use(morgan('dev'));
 app.use(cookieParser());
@@ -31,7 +31,7 @@ app.use(session({
 
 app.use(flash());
 
-require('./app/routes.js')(app);
+require('./app/routes.js')(app, passport);
 
 app.listen(port);
 console.log('The magic happens on port ' + port);
