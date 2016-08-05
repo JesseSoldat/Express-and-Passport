@@ -31,7 +31,7 @@ app.use(session({
 
 app.use(flash());
 
-require('./app/routes.js');
+require('./app/routes.js')(app);
 
 app.listen(port);
 console.log('The magic happens on port ' + port);
