@@ -8,7 +8,8 @@ module.exports = function(app, passport) {
 
 
 	app.get('/login', function(req, res) {
-
+      
+            
         // render the page and pass in any flash data if it exists
         res.render('login.ejs', { message: req.flash('loginMessage') }); 
     });
@@ -40,6 +41,20 @@ module.exports = function(app, passport) {
     });
 
 
+     // =====================================
+    // FACEBOOK ROUTES =====================
+    // =====================================
+    // route for facebook authentication and login
+    app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+
+    // handle the callback after facebook has authenticated the user
+    app.get('/auth/facebook/callback',
+        passport.authenticate('facebook', {
+            successRedirect : '/profile',
+            failureRedirect : '/'
+        }));
+
+
      app.get('/logout', function(req, res) {
         req.logout();
         res.redirect('/');
@@ -47,8 +62,7 @@ module.exports = function(app, passport) {
 
 
     function isLoggedIn(req, res, next) {
-    console.log('isLoggedIn');
-    console.log(req.session);
+    
     // if user is authenticated in the session, carry on 
     if (req.isAuthenticated())
         return next();
